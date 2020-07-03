@@ -32,6 +32,16 @@ const Layout = ({ title,
     const onLayoutChange = (layout) => {
         setLayout(layout);
         pr('onLayoutChange: ', layout);
+        _.map(items, (it) => {
+            const gridLayout = _.find(layout, { i: it.id });
+            const target = document.getElementById(it.id);
+            const appNodes = target.getElementsByTagName("div")
+            const status = target.getElementsByTagName("span")
+            status[0].innerHTML = '<pre>  grid: ' + gridLayout.w + ',' + gridLayout.h + '  Inner:' + appNodes[0].offsetWidth
+                + ',' + appNodes[0].offsetHeight + '; outer: ' + target.offsetWidth + ',' + target.offsetHeight + '</pre>'
+
+        })
+
     };
 
     const [items, setItems] = useState([])// Format: [{ DOM: <type such as table, chart>, id: uuidv4(), url: 'https://localhost:3000/web/datawheeler/data/data2.js' }])
@@ -55,7 +65,7 @@ const Layout = ({ title,
         if (key == 'Control' && !state.draggable ) {
             setState({  draggable: true, resizable: true })
             //pr(key, 'down, state ', state)
-        }
+       }
 
     }
 
@@ -90,31 +100,30 @@ const Layout = ({ title,
             //setState({ draggable: false, resizable: false })
             pr('removing:', id)
             setItems(_.reject(items, { id: id }));
-
         }
+
         else  if (e.altKey && e.shiftKey) {
             let modLayout = _.find(savedLayout, { i: id });
             const appNodes = document.getElementById(id).getElementsByTagName("div")
             if (appNodes.length == 0)
                 return;
-            modLayout = { ...modLayout, w: 1 + appNodes[0].offsetWidth / 48, h: 1 + appNodes[0].offsetHeight /40 }
+            modLayout = { ...modLayout, w: appNodes[0].offsetWidth / 24, h: 2 + Math.pow(10, (Math.log10(appNodes[0].offsetHeight / 30) / 1.085)) }
             setLayout([..._.reject(savedLayout, { i: id }), modLayout]);
-            appNodes[0] && pr('Client Height', modLayout );
-            //pr('modLayout', modLayout)
+            pr('dim', appNodes[0].offsetWidth, appNodes[0].offsetHeight, 'modLayout', modLayout) 
         }
     };
 
     const generateDOM = () => {
         //const prevLayout = _.orderBy(layout, 'id')
-        pr('generateDOM', 'items', items)
+        //pr('generateDOM', 'items', items)
         return (_.map(_.range(items.length), (i) =>
             (<div key={items[i].id} data-grid={{ x: 0, y: 0, w: items[i].dim[0], h: items[i].dim[1]}} 
-                    style={{ border: '3px solid', backgroundColor: "lightgrey", margin: "auto", overflowY: "scroll"
+                    style={{ border: '3px solid', backgroundColor: "white", margin: "auto", overflowY: "scroll"
                             }} onClick={(e) => handleItemClick(e, items[i].id)}
                 id={items[i].id} >
-                <h6 style={{ padding: '3px', margin: '5px' }} align="left" onClick={(e) =>
-                                            (e.target.innerText == '☰ Show command' ? e.target.innerHTML = items[i].url : e.target.innerText = '☰ Show command')}>☰ Show command</h6>
-
+                <h6 style={{ padding: '3px', margin: '5px', backgroundColor:'lightblue' }} align="left" onClick={(e) =>
+                    (e.target.innerText == '☰ Show command' ? e.target.innerHTML = items[i].url : e.target.innerText = '☰ Show command')}>☰ Show command </h6>
+                <span class='status'>...</span>
                 {items[i].DOM == 'Table' ? <TableApp url={items[i].url} id={items[i].id} raw={false} /> : <></>}
 
                 </div>)
@@ -149,14 +158,14 @@ const Layout = ({ title,
                                 onKeyUp={(e) => {
                                     if (e.ctrlKey && e.key == 'Enter') {
                                         const id = uuidv4();
-                                        setItems([{ DOM: 'Table', url: e.target.value.trim(), id: id, url: e.target.value.trim(), dim: [16, 12] }, ...saveditems,])
+                                        setItems([{ DOM: 'Table', url: e.target.value.trim(), id: id, url: e.target.value.trim(), dim: [24, 12] }, ...saveditems,])
                                         setCmdHistory([e.target.value.trim(), ...cmdHistory])
                                      }
-                                }} />;
+                                }} />
 
                         </InputGroup>
 
-                        <ReactGridLayout layout={layout} {...defaultProps} cols={hide ? 20 : 24} rowHeight={30} width={1200}
+                        <ReactGridLayout layout={layout} {...defaultProps} cols={hide ? 20 : 24} rowHeight={30} width={'90%'}
                             onLayoutChange={onLayoutChange} isResizable={state.resizable} isDraggable={state.draggable}>
                             {generateDOM()}
                         </ReactGridLayout>
