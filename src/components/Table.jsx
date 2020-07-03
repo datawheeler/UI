@@ -25,6 +25,7 @@ const columns =  [
     { title: "Start date" },
     { title: "Salary" }
 ]
+//let columns =[]
 function reloadTableData(data, id) {
     const table = $('.' + id ).find('table').DataTable();
     table.clear();
@@ -65,13 +66,16 @@ class Table extends Component {
 
 
     componentDidMount() {
-        $('#' + this.uuidv4).DataTable({
+         $('#' + this.uuidv4).DataTable({
             //dom: '<"data-table-wrapper"flipt>',
             dom: '<"' + this.tableId + '"flipt>',
-            data: this.props.data,
+            data: this.props.data.items,
             "autoWidth": false,
-            columns,
-            ordering: true
+            "columns": this.props.data.cols,
+            ordering: true,
+            search: {
+                "regex": true
+            }
         });
     }
 
@@ -96,7 +100,7 @@ class Table extends Component {
         return (
             <div refresh={this.state.refresh} style={{ backgroundColor: 'lightgrey', width: '90%', margin: '0 auto 2em auto' }}
                 cellpadding="3" cellspacing="0" border="0" >
-                <table id={this.uuidv4} class="display"/>
+                <table id={this.uuidv4} class="display" style={{ width: "100%", fontSize: '12px'}}/>
             </div>);
     }
 }

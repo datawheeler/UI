@@ -40,7 +40,7 @@ class TableApp extends Component {
             .then(res => {return res.json() })
             .then(
                 (result) => {
-                    this.setState({ items: result.items, error: null, loaded: true  })
+                    this.setState({ items: { ...result }, error: null, loaded: true  })
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -59,8 +59,8 @@ class TableApp extends Component {
         else
         {
                 return (
-                    <div className="App" ref='div' style={{ padding: "10px" }}>
-                        {!this.raw ? <Table data={this.state.items} id={this.id} url={this.props.url} /> :  this.state.items }  
+                    <div className="App" ref='div' style={{ textAlign:"left" , padding: "10px" }}>
+                        {!this.raw ? <Table data={this.state.items} id={this.id} url={this.props.url} /> : <pre>{JSON.stringify(this.state.items, null, 3)}</pre>}  
                         
                     </div>
                 );
