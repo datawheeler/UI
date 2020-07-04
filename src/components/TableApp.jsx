@@ -68,14 +68,16 @@ class TableApp extends Component {
                 return (
                     <div className="App" ref='div' style={{ display: "inline-block", textAlign: "left", padding: "10px" }}>
                         {!this.raw ? <Table data={this.state.items} id={this.id} url={this.props.url} /> :
-                            <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.state.items.result, null, 3).slice(1, this.state.items.result.length - 1).replace(/\\n/g, "\n")
+                            <p style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.state.items.result, null, 3).replace(/(^")|("$)/g, "")
+                                                                                                                .replace(/\\n/g, "\n")
                                                                                                                 .replace(/\\'/g, "\'")
                                                                                                                 .replace(/\\"/g, '\"')
                                                                                                                 .replace(/\\&/g, "\&")
                                                                                                                 .replace(/\\r/g, "\r")
                                                                                                                 .replace(/\\t/g, "\t")
                                                                                                                 .replace(/\\b/g, "\b")
-                                                                                                                .replace(/\\f/g, "\f")}</pre>}  
+                                                                                                                .replace(/\\f/g, "\f")
+                                                                                                                }</p>}  
                         
                     </div>
                 );

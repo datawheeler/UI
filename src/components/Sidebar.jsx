@@ -42,7 +42,7 @@ const Side = ({ onNavClick, cmdHistory=['first', 'second'], hide = false }) => {
                                 </Container>
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                <h4>Datawheeler is a general purpose UI for data wrangling and data analytics.</h4>
+                                <h6>Datawheeler is a general purpose UI for data wrangling and data analytics.</h6>
               </Tab.Pane>
                         </Tab.Content>
                     </Col>}
