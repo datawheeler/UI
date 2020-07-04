@@ -28,7 +28,7 @@ class TableApp extends Component {
         super(props);
         this.state = { items: null, error: null, loaded: false,  };
         this.id = props.id;
-        this.raw = props.raw||false;
+        this.raw = props.raw||true;
         ;
     }
 
@@ -37,10 +37,16 @@ class TableApp extends Component {
         //Ajax call 
         console.log('Table - mounted');
         fetch(this.props.url)
-            .then(res => {return res.json() })
+            .then(res => {
+                if (this.raw) {
+                    return  res.text()
+                    }
+                else
+                    return res.json()
+                })
             .then(
                 (result) => {
-                    this.setState({ items: { ...result }, error: null, loaded: true  })
+                    this.setState({ items: {result }, error: null, loaded: true  })
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -57,10 +63,19 @@ class TableApp extends Component {
             if (this.state.error)
                 return (<div style={{ padding: '3px', margin: '5px' }}>{this.state.error.toString()}</div>)
         else
-        {
+            {
+                console.log(this.state.items)
                 return (
-                    <div className="App" ref='div' style={{ textAlign:"left" , padding: "10px" }}>
-                        {!this.raw ? <Table data={this.state.items} id={this.id} url={this.props.url} /> : <pre>{JSON.stringify(this.state.items, null, 3)}</pre>}  
+                    <div className="App" ref='div' style={{ display: "inline-block", textAlign: "left", padding: "10px" }}>
+                        {!this.raw ? <Table data={this.state.items} id={this.id} url={this.props.url} /> :
+                            <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.state.items.result, null, 3).slice(1, this.state.items.result.length - 1).replace(/\\n/g, "\n")
+                                                                                                                .replace(/\\'/g, "\'")
+                                                                                                                .replace(/\\"/g, '\"')
+                                                                                                                .replace(/\\&/g, "\&")
+                                                                                                                .replace(/\\r/g, "\r")
+                                                                                                                .replace(/\\t/g, "\t")
+                                                                                                                .replace(/\\b/g, "\b")
+                                                                                                                .replace(/\\f/g, "\f")}</pre>}  
                         
                     </div>
                 );

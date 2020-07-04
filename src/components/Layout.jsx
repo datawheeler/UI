@@ -107,7 +107,7 @@ const Layout = ({ title,
             const appNodes = document.getElementById(id).getElementsByTagName("div")
             if (appNodes.length == 0)
                 return;
-            modLayout = { ...modLayout, w: appNodes[0].offsetWidth / 24, h: 2 + Math.pow(10, (Math.log10(appNodes[0].offsetHeight / 30) / 1.085)) }
+            modLayout = { ...modLayout, w: appNodes[0].offsetWidth / 24, h: 2 + Math.pow(10, (Math.log10(appNodes[0].offsetHeight / 30) / 1.1)) }
             setLayout([..._.reject(savedLayout, { i: id }), modLayout]);
             pr('dim', appNodes[0].offsetWidth, appNodes[0].offsetHeight, 'modLayout', modLayout) 
         }

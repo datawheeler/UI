@@ -7,10 +7,12 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "dataframe-js": "^1.4.3",
     "http-proxy-middleware": "^1.0.4",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.1",
     "react-grid-layout": "^0.18.3",
     "react-scripts": "3.4.1",
     "websocket-extensions": "^0.1.4"

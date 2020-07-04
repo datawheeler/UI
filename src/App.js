@@ -18,7 +18,7 @@ function App() {
         sidemenu.current.innerText = (hidepanel ? '☰ DW' : '⚟ DATAWHEELER')
         setHidepanel(hidepanel)
     }
-    const menu = <h4 align="left" style={{ color: 'yellow' }} ref={sidemenu} onClick={() => handlePanel(!hidepanel)}   >☰ DW</h4>
+    const menu = <h4 align="left" style={{ color: 'yellow', display:'inline-block' }} ref={sidemenu} onClick={() => handlePanel(!hidepanel)}   >☰ DW</h4>
  
     return (
       <BrowserRouter>
