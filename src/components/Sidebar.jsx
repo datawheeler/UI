@@ -36,7 +36,8 @@ const Side = ({ onNavClick, cmdHistory=['first', 'second'], hide = false }) => {
                                 {_.map(_.range(cmdHistory.length),
                                     (i) => (<Row>
                                                 <Col sm={1} style={{ padding: '3px', margin: '5px' }}>{cmdHistory.length - i}</Col>
-                                                <Col sm={10} style={{ padding: '3px', wordWrap: 'break-word', margin: '3px', }} onClick={(e) => e.ctrlKey && alert(e.target.innerText)}>
+                                                <Col sm={10} style={{ padding: '3px', wordWrap: 'break-word', margin: '3px', }}
+                                                        onDoubleClick={(e) => e.ctrlKey && alert('"' + e.target.innerText + '" will be copied to the command box in future releases')}>
                                                     {cmdHistory[i]}</Col>
                                             </Row>))}
                                 </Container>

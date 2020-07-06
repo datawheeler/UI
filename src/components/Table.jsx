@@ -69,7 +69,7 @@ class Table extends Component {
          $('#' + this.uuidv4).DataTable({
             //dom: '<"data-table-wrapper"flipt>',
             dom: '<"' + this.tableId + '"flipt>', 
-            data: this.props.data.items,
+            data: this.props.data.rows,
             "autoWidth": false,
             "columns": this.props.data.cols,
             ordering: true,

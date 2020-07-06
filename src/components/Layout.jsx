@@ -124,7 +124,7 @@ const Layout = ({ title,
                 <h6 style={{ padding: '3px', margin: '5px', backgroundColor:'lightblue' }} align="left" onClick={(e) =>
                     (e.target.innerText == '☰ Show command' ? e.target.innerHTML = items[i].url : e.target.innerText = '☰ Show command')}>☰ Show command </h6>
                 <span class='status'>...</span>
-                {items[i].DOM == 'Table' ? <TableApp url={items[i].url} id={items[i].id} raw={false} /> : <></>}
+                <TableApp dom={items[i].DOM} url={items[i].url} id={items[i].id} raw={false} />
 
                 </div>)
             ))
@@ -158,7 +158,19 @@ const Layout = ({ title,
                                 onKeyUp={(e) => {
                                     if (e.ctrlKey && e.key == 'Enter') {
                                         const id = uuidv4();
-                                        setItems([{ DOM: 'Table', url: e.target.value.trim(), id: id, url: e.target.value.trim(), dim: [24, 12] }, ...saveditems,])
+                                        const args = _.split(e.target.value.trim(), ' ');  // format:  [Command] 'URL'
+                                        pr('args', args)
+                                        let url = '';
+                                        let dom = 'TABLE'
+                                        
+                                        if (args.length > 1) {
+                                            url = args[args.length - 1]
+                                            dom = args[0].toUpperCase();
+                                        }
+                                        else url = args[0];
+
+                                        e.target.value.trim()
+                                        setItems([{ DOM: dom, url: url, id: id, dim: [24, 12] }, ...saveditems,])
                                         setCmdHistory([e.target.value.trim(), ...cmdHistory])
                                      }
                                 }} />
